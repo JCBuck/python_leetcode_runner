@@ -17,7 +17,9 @@ from typing import Any, Callable, List, Optional, Tuple
 
 import color
 from color import format_color, use_color
-
+# https://stackoverflow.com/questions/27189044/import-with-dot-name-in-python
+import importlib.util 
+    
 
 def pyleet() -> int:
     """CLI interface."""
@@ -37,7 +39,14 @@ def run_leetcode_solution(filepath: str) -> int:
         directory, _, filename = filepath.rpartition(os.path.sep)
         sys.path.append(directory)
         module_name = filename[:-3] if filename.endswith('.py') else filename
-        module = __import__(module_name)
+        # module = __import__(module_name)
+        # module = imp.load_source(module_name,filename)
+        spec = importlib.util.spec_from_file_location(
+        name=module_name,  # note that ".test" is not a valid module name
+        location=filename,
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
     except ModuleNotFoundError:
         print_error(f'Unable to import file: {filepath}')
         return 1
@@ -213,3 +222,9 @@ def print_error(string: str) -> None:
     """Prints an error"""
     error = colored('Error:', color.ERROR + color.BOLD)
     print(error, string)
+
+# workaround for vscode pydebug not being able to specify
+# entrypoint for a module in launch.json
+# https://github.com/microsoft/debugpy/issues/1311
+if __name__=="__main__":
+    pyleet()
