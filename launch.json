@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // https://github.com/microsoft/debugpy/issues/1416#issuecomment-1802519841
+    // to launch code with custom entrypoint to module with pydebug
+    // https://stackoverflow.com/questions/64556874/how-can-i-debug-python-console-script-command-line-apps-with-the-vscode-debugger
+    
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: pyleet Current File",
+            "type": "debugpy",
+            "request": "launch",
+            //this launch.json should be in user home /.leetcode/.vscode
+            //will use the leetcode vscode workspace
+            "program": "python_leetcode_runner/leetcode.py",
+            // "module": "leetcode",
+            "console": "integratedTerminal",
+            "args": [
+                "${file}"
+            ]
+        }
+    ]
+}
